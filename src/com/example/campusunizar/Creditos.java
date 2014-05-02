@@ -28,12 +28,14 @@ public class Creditos extends Activity {
 	
 	
 	EditText user;
-	// String URL_connect
-    String IP_Server="192.168.1.131";//IP DE NUESTRO PC
-	//String IP_Server="192.168.43.80:8080";//IP EDUROAM
-	String URL_connect="http://"+IP_Server+"/campusUnizar/creditos.php";//ruta en donde estan nuestros archivos
+
     String usuario;
     Httppostaux post;
+
+    // String URL_connect    
+    String directorio="/campusUnizar/creditos.php";
+    String URL_connect;
+    
     int totalCreditos;
     ArrayList<String> datosActividades = new ArrayList<String>();
     
@@ -46,7 +48,7 @@ public class Creditos extends Activity {
 		
 		//Manejador del envío de peticiones
 		post=new Httppostaux();
-		
+		URL_connect= post.getURL(directorio);
 		//Obtenemos el nombre del usuario que se ha introducido inicialmente
 		Bundle bundle=getIntent().getExtras();
         usuario = bundle.getString("user");
@@ -149,7 +151,8 @@ public void popUpNoActividades()
 	        .setCancelable(false)
 	        .setNegativeButton("Aceptar",
 	                new DialogInterface.OnClickListener() {
-	                    public void onClick(DialogInterface dialog, int id) {
+	                    @Override
+						public void onClick(DialogInterface dialog, int id) {
 	                        dialog.cancel();
 	                    }
 	                });
@@ -160,11 +163,13 @@ public void popUpNoActividades()
 class asynCreditos extends AsyncTask < String, String, String > {
 	 
 	String user;
-    protected void onPreExecute() {
+    @Override
+	protected void onPreExecute() {
 
 
     }
 
+	@Override
 	protected String doInBackground(String... params) {
 		//obtnemos usr
 		user=params[0];
@@ -181,7 +186,8 @@ class asynCreditos extends AsyncTask < String, String, String > {
 	/*Una vez terminado doInBackground segun lo que halla ocurrido 
 	pasamos a la sig. activity
 	o mostramos error*/
-    protected void onPostExecute(String result) {
+    @Override
+	protected void onPostExecute(String result) {
 
     	if (result.equals("ok")){
     		if (!datosActividades.isEmpty())

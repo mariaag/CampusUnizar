@@ -38,19 +38,17 @@ public class ActividadesPrivadas extends Activity implements View.OnClickListene
     private ProgressDialog pDialog;
 	Httppostaux post;//Manejador de peticiones
 	
-	//String URL_connect
-    String IP_Server="192.168.1.38";//IP DE NUESTRO PC
-	//String IP_Server="192.168.43.80:8080";//IP EDUROAM
-    String URL_connect="http://"+IP_Server+"/campusUnizar/actividades_privadas.php";//ruta en donde estan nuestros archivos
+		//String URL_connect
+    String directorio="/campusUnizar/actividades_privadas.php";
+    String URL_connect;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.actividades_privadas);
-		
 		//Manejador del envío de peticiones
 	    post=new Httppostaux();
-	    
+		URL_connect= post.getURL(directorio);
 		//Recogemos la información de la actividad login
 		Bundle extras = getIntent().getExtras();
 	    usuario = extras.getString("user");
@@ -98,7 +96,7 @@ public class ActividadesPrivadas extends Activity implements View.OnClickListene
 	  				     newButton.setText(nombreAsignatura);
 	  				     newButton.setContentDescription(nombreAsignatura);
 	  				     newButton.setBackgroundColor(Color.parseColor("#2d6898"));
-	  				     LinearLayout.LayoutParams params=new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
+	  				     LinearLayout.LayoutParams params=new LinearLayout.LayoutParams(android.view.ViewGroup.LayoutParams.MATCH_PARENT, android.view.ViewGroup.LayoutParams.MATCH_PARENT);
 	  				     params.setMargins(0, 3, 0, 0);
 	  				     newButton.setLayoutParams(params);
 	  			         newButton.setTextColor(Color.parseColor("#ffffff"));
@@ -127,7 +125,8 @@ public class ActividadesPrivadas extends Activity implements View.OnClickListene
  	    toast1.show();    	
     }
     
-    public void onClick(View v) {
+    @Override
+	public void onClick(View v) {
     	String actividad = v.getContentDescription().toString();
 		Intent in = new Intent(this,ActividadPrivadaActual.class);
 		in.putExtra("actividad", actividad);
@@ -144,7 +143,8 @@ public class ActividadesPrivadas extends Activity implements View.OnClickListene
     
     class asyncbotones extends AsyncTask< String, String, String > {
     	 
-        protected void onPreExecute() {
+        @Override
+		protected void onPreExecute() {
         	//para el progress dialog
             pDialog = new ProgressDialog(ActividadesPrivadas.this);
             pDialog.setMessage("Actividades Privadas....");
@@ -153,6 +153,7 @@ public class ActividadesPrivadas extends Activity implements View.OnClickListene
             pDialog.show();
         }
  
+		@Override
 		protected String doInBackground(String... params) {
 			
 			//enviamos y recibimos y analizamos los datos en segundo plano.
@@ -166,7 +167,8 @@ public class ActividadesPrivadas extends Activity implements View.OnClickListene
        
 		/*Este método se ejecuta en otro hilo, por lo que no podremos modificar la
 		 * UI desde él. Para ello, usaremos los tres métodos siguientes.*/
-        protected void onPostExecute(String result) {
+        @Override
+		protected void onPostExecute(String result) {
 
            pDialog.dismiss();//ocultamos progess dialog.
            Log.e("onPostExecute=",""+result);

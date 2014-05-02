@@ -40,14 +40,15 @@ public class LoginUsuario extends Activity {
     EditText pass;
     Button blogin;
     TextView registrar;
-	// String URL_connect
-    String IP_Server="192.168.1.38";//IP DE NUESTRO PC
-    //String IP_Server="192.168.43.80:8080";//IP EDUROAM
-    String URL_connect="http://"+IP_Server+"/campusUnizar/acces.php";//ruta en donde estan nuestros archivos
+
 	
     //Diálogo que muestra un indicador de progreso y un mensaje de texto opcional o vista
     private ProgressDialog pDialog;
     Httppostaux post;
+
+    // String URL_connect    
+    String directorio="/campusUnizar/acces.php";
+    String URL_connect;
     
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +58,7 @@ public class LoginUsuario extends Activity {
 		
 		//Manejador del envío de peticiones
 		post=new Httppostaux();
-		
+		URL_connect= post.getURL(directorio);
 		//Cogemos los datos
 		user= (EditText) findViewById(R.id.edusuario);
         pass= (EditText) findViewById(R.id.edpassword);
@@ -66,7 +67,8 @@ public class LoginUsuario extends Activity {
       //Login button action
 	   blogin.setOnClickListener(new View.OnClickListener(){
 	       
-	    	public void onClick(View view){
+	    	@Override
+			public void onClick(View view){
 	    		 
 	    		//Extreamos datos de los EditText
 	    		String usuario=user.getText().toString();
@@ -167,7 +169,8 @@ public class LoginUsuario extends Activity {
         class asynclogin extends AsyncTask< String, String, String > {
         	 
         	String user,pass;
-            protected void onPreExecute() {
+            @Override
+			protected void onPreExecute() {
             	//para el progress dialog
                 pDialog = new ProgressDialog(LoginUsuario.this);
                 pDialog.setMessage("Autenticando....");
@@ -176,7 +179,8 @@ public class LoginUsuario extends Activity {
                 pDialog.show();
             }
      
-    		protected String doInBackground(String... params) {
+    		@Override
+			protected String doInBackground(String... params) {
     			//obtnemos usr y pass
     			user=params[0];
     			pass=params[1];
@@ -193,7 +197,8 @@ public class LoginUsuario extends Activity {
     		/*Una vez terminado doInBackground segun lo que halla ocurrido 
     		pasamos a la sig. activity
     		o mostramos error*/
-            protected void onPostExecute(String result) {
+            @Override
+			protected void onPostExecute(String result) {
 
                pDialog.dismiss();//ocultamos progess dialog.
                Log.e("onPostExecute=",""+result);

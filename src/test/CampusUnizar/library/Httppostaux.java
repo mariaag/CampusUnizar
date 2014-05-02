@@ -41,6 +41,11 @@ public class Httppostaux{
 		  
 	  }
 	  
+	  public String getURL(String directorio ){
+	 
+		  String url = "http://192.168.1.130/"+directorio;
+	      return url;		  
+	  }
 	   
 	  //peticion HTTP
     private void httppostconnect(ArrayList<NameValuePair> parametros, String urlwebserver){

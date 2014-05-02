@@ -1,0 +1,45 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    style="@style/Estilo_Unizar"
+    tools:context=".MainActivity" >
+    
+    <Button
+        android:id="@+id/Button01"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/privadas"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="19dp"
+        android:background="#2d6898"
+        android:onClick="salir"
+        android:text="@string/salir"
+        android:textColor="#ffffff" />
+
+    <Button
+        android:id="@+id/bLogin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:background="#2d6898"
+        android:gravity="center"
+        android:onClick="lanzarPublicas"
+        android:text="@string/boton_publicas"
+        android:textColor="#ffffff" />
+
+    <Button
+        android:id="@+id/privadas"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/bLogin"
+        android:layout_alignLeft="@+id/bLogin"
+        android:layout_marginBottom="22dp"
+        android:background="#2d6898"
+        android:onClick="lanzarLogin"
+        android:text="@string/boton_login"
+        android:textColor="#ffffff" />
+
+</RelativeLayout>

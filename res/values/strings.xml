@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Campus Unizar</string>
+    <string name="action_settings">Settings</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="boton_publicas">Actividades Públicas</string>
+    <string name="boton_privadas">Actividades Privadas</string>
+    <string name="entrada_pass">Password:</string>
+    <string name="boton_login">Login</string>
+    <string name="entrada_usuario">Usuario:</string>
+    <string name="title_activity_actividades_publicas">Actividades Publicas</string>
+    <string name="title_activity_actividades_privadas">Actividades Privadas</string>
+    <string name="title_activity_inscribir_actividades">Inscribir Actividades</string>
+    <string name="title_activity_acceso_privado">Acceso Privado</string>
+    <string name="salir">Salir</string>
+    <string name="etiqueta_usuario">Usuario:</string>
+    <string name="zona_privada">Zona Privada</string>
+    <string name="creditos">Créditos</string>
+    <string name="actividades_privadas">Actividades Privadas</string>
+    <string name="title_activity_creditos">Gestion de Creditos</string>
+</resources>

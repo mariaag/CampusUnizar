@@ -10,6 +10,9 @@ package com.example.campusunizar;
 public final class R {
     public static final class attr {
     }
+    public static final class color {
+        public static final int azulFondo=0x7f070000;
+    }
     public static final class dimen {
         /**  Default screen margins, per the Android Design guidelines. 
 
@@ -25,29 +28,30 @@ public final class R {
         public static final int ic_launcher=0x7f020001;
     }
     public static final class id {
-        public static final int Button01=0x7f080005;
-        public static final int action_settings=0x7f080016;
-        public static final int bAccesoPrivadas=0x7f080001;
-        public static final int bInscribirPrivadas=0x7f080000;
-        public static final int bLogin=0x7f080003;
-        public static final int botonesPubli=0x7f08000b;
-        public static final int edpassword=0x7f080015;
-        public static final int edusuario=0x7f080013;
-        public static final int layoutPubli=0x7f08000a;
-        public static final int lblCreditosAct=0x7f080012;
-        public static final int lblnombreActividadCred=0x7f080011;
-        public static final int lbltotalCreditos=0x7f08000e;
-        public static final int lbltotalCreditosSuma=0x7f08000f;
-        public static final int linearPrivadas=0x7f080009;
-        public static final int listViewCreditos=0x7f08000d;
-        public static final int privadas=0x7f08000c;
-        public static final int relativeLayoutprivadas=0x7f080008;
-        public static final int textView2=0x7f080014;
-        public static final int text_user=0x7f080004;
-        public static final int text_user2=0x7f080002;
-        public static final int titulo=0x7f080006;
-        public static final int tituloPrivada=0x7f080007;
-        public static final int txtCreditosAct=0x7f080010;
+        public static final int Button01=0x7f090005;
+        public static final int action_settings=0x7f090017;
+        public static final int activ_pub_act=0x7f090006;
+        public static final int bAccesoPrivadas=0x7f090001;
+        public static final int bInscribirPrivadas=0x7f090000;
+        public static final int bLogin=0x7f090003;
+        public static final int botonesPubli=0x7f09000c;
+        public static final int edpassword=0x7f090016;
+        public static final int edusuario=0x7f090014;
+        public static final int layoutPubli=0x7f09000a;
+        public static final int lblCreditosAct=0x7f090013;
+        public static final int lblnombreActividadCred=0x7f090012;
+        public static final int lbltotalCreditos=0x7f09000f;
+        public static final int lbltotalCreditosSuma=0x7f090010;
+        public static final int linearPrivadas=0x7f090009;
+        public static final int listViewCreditos=0x7f09000e;
+        public static final int privadas=0x7f09000d;
+        public static final int relativeLayoutprivadas=0x7f090008;
+        public static final int textView2=0x7f090015;
+        public static final int text_user=0x7f090004;
+        public static final int text_user2=0x7f090002;
+        public static final int titulo=0x7f09000b;
+        public static final int tituloPrivada=0x7f090007;
+        public static final int txtCreditosAct=0x7f090011;
     }
     public static final class layout {
         public static final int acceso_privado=0x7f030000;
@@ -62,8 +66,8 @@ public final class R {
         public static final int login_usuario=0x7f030009;
     }
     public static final class menu {
-        public static final int actividades_publicas=0x7f070000;
-        public static final int main=0x7f070001;
+        public static final int actividades_publicas=0x7f080000;
+        public static final int main=0x7f080001;
     }
     public static final class string {
         public static final int action_settings=0x7f050001;
@@ -113,5 +117,9 @@ public final class R {
          */
         public static final int AppTheme=0x7f060001;
         public static final int Estilo_Unizar=0x7f060002;
+        public static final int boton=0x7f060006;
+        public static final int texto=0x7f060005;
+        public static final int textoH1=0x7f060003;
+        public static final int textoH2=0x7f060004;
     }
 }

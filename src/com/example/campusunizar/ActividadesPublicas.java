@@ -101,10 +101,7 @@ public class ActividadesPublicas extends Activity implements View.OnClickListene
 				String activAct;
 				JSONObject row = jdata.getJSONObject(i);
 				activAct = row.getString("nombre");
-				
-				String datos = row.getString("nombre")+"&"+row.get("fecha").toString()+"&"+row.get("hora").toString()+"&"+row.getString("Lugar")+"&"+row.getInt("Duracion")+"&"+row.getString("Informacion");
-//				activAct=jdata.getString(i).toString();
-
+				String datos = row.getString("nombre")+"&"+row.get("fecha").toString()+"&"+row.get("hora").toString()+"&"+row.getString("Lugar")+"&"+row.getInt("Duracion")+"&"+row.getString("Informacion")+"&"+row.getString("id_actividad");
 				Log.e("actividad" + i,activAct);//muestro por log que obtuvimos
 				act = new Button(vista.getContext());
 				act.setText(activAct);
@@ -117,7 +114,6 @@ public class ActividadesPublicas extends Activity implements View.OnClickListene
 				act.setClickable(true);
 				act.setOnClickListener(this);
 				vista.addView(act);
-//					setContentView(act);
 			} catch (JSONException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

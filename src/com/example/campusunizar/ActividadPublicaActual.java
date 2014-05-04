@@ -1,7 +1,6 @@
 package com.example.campusunizar;
 
 import java.sql.Connection;
-
 import test.CampusUnizar.library.Httppostaux;
 import android.app.Activity;
 import android.os.Bundle;
@@ -28,7 +27,9 @@ Connection conexionMySQL;//Variable de conexión
 		//si pasamos esa validacion ejecutamos el asynctask pasando el usuario y clave como parametros
 //		new asynclogin().execute();  
 		Bundle bundle=getIntent().getExtras();
-		String actividad=bundle.getString("actividad");
+		String extras= bundle.getString("actividad");
+		String[] datos=extras.split("&");
+		String actividad=datos[0];
 		TextView titulo=(TextView) findViewById(R.id.titulo);
 		titulo.setText(actividad);
 	}

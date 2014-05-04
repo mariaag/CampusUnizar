@@ -7,6 +7,7 @@ import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import test.CampusUnizar.library.Httppostaux;
 import android.app.Activity;
@@ -98,12 +99,16 @@ public class ActividadesPublicas extends Activity implements View.OnClickListene
     		
 			try {
 				String activAct;
-				activAct=jdata.getString(i).toString();
+				JSONObject row = jdata.getJSONObject(i);
+				activAct = row.getString("nombre");
+				
+				String datos = row.getString("nombre")+"&"+row.get("fecha").toString()+"&"+row.get("hora").toString()+"&"+row.getString("Lugar")+"&"+row.getInt("Duracion")+"&"+row.getString("Informacion");
+//				activAct=jdata.getString(i).toString();
 
 				Log.e("actividad" + i,activAct);//muestro por log que obtuvimos
 				act = new Button(vista.getContext());
 				act.setText(activAct);
-				act.setContentDescription(activAct);
+				act.setContentDescription(datos);
 				act.setTextColor(Color.parseColor("#ffffff"));
 				act.setBackgroundColor(Color.parseColor("#2d6898"));
 				LinearLayout.LayoutParams params=new LinearLayout.LayoutParams(android.view.ViewGroup.LayoutParams.MATCH_PARENT,android.view.ViewGroup.LayoutParams.WRAP_CONTENT);

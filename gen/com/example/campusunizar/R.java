@@ -29,29 +29,30 @@ public final class R {
     }
     public static final class id {
         public static final int Button01=0x7f090005;
-        public static final int action_settings=0x7f090017;
+        public static final int action_settings=0x7f090018;
         public static final int activ_pub_act=0x7f090006;
         public static final int bAccesoPrivadas=0x7f090001;
         public static final int bInscribirPrivadas=0x7f090000;
         public static final int bLogin=0x7f090003;
         public static final int botonesPubli=0x7f09000c;
-        public static final int edpassword=0x7f090016;
-        public static final int edusuario=0x7f090014;
+        public static final int edpassword=0x7f090017;
+        public static final int edusuario=0x7f090015;
+        public static final int info_act_privadas=0x7f090007;
         public static final int layoutPubli=0x7f09000a;
-        public static final int lblCreditosAct=0x7f090013;
-        public static final int lblnombreActividadCred=0x7f090012;
-        public static final int lbltotalCreditos=0x7f09000f;
-        public static final int lbltotalCreditosSuma=0x7f090010;
+        public static final int lblCreditosAct=0x7f090014;
+        public static final int lblnombreActividadCred=0x7f090013;
+        public static final int lbltotalCreditos=0x7f090010;
+        public static final int lbltotalCreditosSuma=0x7f090011;
         public static final int linearPrivadas=0x7f090009;
-        public static final int listViewCreditos=0x7f09000e;
-        public static final int privadas=0x7f09000d;
+        public static final int listViewCreditos=0x7f09000f;
+        public static final int privadas=0x7f09000e;
         public static final int relativeLayoutprivadas=0x7f090008;
-        public static final int textView2=0x7f090015;
+        public static final int textView2=0x7f090016;
         public static final int text_user=0x7f090004;
         public static final int text_user2=0x7f090002;
+        public static final int title_activity_inscribir_actividades=0x7f09000d;
         public static final int titulo=0x7f09000b;
-        public static final int tituloPrivada=0x7f090007;
-        public static final int txtCreditosAct=0x7f090011;
+        public static final int txtCreditosAct=0x7f090012;
     }
     public static final class layout {
         public static final int acceso_privado=0x7f030000;
@@ -72,6 +73,7 @@ public final class R {
     public static final class string {
         public static final int action_settings=0x7f050001;
         public static final int actividades_privadas=0x7f050010;
+        public static final int activity_sin_inscribir=0x7f050012;
         public static final int app_name=0x7f050000;
         public static final int boton_login=0x7f050006;
         public static final int boton_privadas=0x7f050004;

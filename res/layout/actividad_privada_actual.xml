@@ -3,15 +3,24 @@
     style="@style/Estilo_Unizar"
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
-
+    
     <TextView
-        android:id="@+id/tituloPrivada"
+        android:id="@+id/text_user"
         android:layout_width="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@+id/text_user"
+        android:textColor="#2d6898"
+        android:layout_marginRight="14dp"
+        android:layout_height="wrap_content"/>
+    
+    <LinearLayout
+        android:id="@+id/info_act_privadas"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="73dp"
-        android:text="Large Text"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
+        android:layout_below="@+id/text_user"
+        android:layout_marginTop="57dp"
+        android:orientation="vertical" >
+    </LinearLayout>
+
 
 </RelativeLayout>

@@ -1,20 +1,40 @@
 package com.example.campusunizar;
 
 import java.sql.Connection;
+import java.util.ArrayList;
+
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONArray;
+import org.json.JSONException;
+
 
 import test.CampusUnizar.library.Httppostaux;
 import android.app.Activity;
+import android.app.ProgressDialog;
+import android.content.Context;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Vibrator;
+import android.util.Log;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class ActividadPrivadaActual extends Activity  {
 Connection conexionMySQL;//Variable de conexión
-
-  //Diálogo que muestra un indicador de progreso y un mensaje de texto opcional o vista
+	TextView textUser;
+	String usuario;
+	String idActividad;
+	String tituloAct;
+    //Diálogo que muestra un indicador de progreso y un mensaje de texto opcional o vista
     //private ProgressDialog pDialog;
     Httppostaux post;
+    //Diálogo que muestra un indicador de progreso y un mensaje de texto opcional o vista
+    private ProgressDialog pDialog;
     
-    String directorio="/campusUnizar/publicActiv.php";
+    String directorio="/campusUnizar/actividad_privada_actual.php";
     String URL_connect;
     
 	@Override
@@ -23,12 +43,222 @@ Connection conexionMySQL;//Variable de conexión
 		setContentView(R.layout.actividad_privada_actual);
 		//Manejador del envío de peticiones
 		post=new Httppostaux();
-		URL_connect= post.getURL(directorio);
-		//si pasamos esa validacion ejecutamos el asynctask pasando el usuario y clave como parametros
-//		new asynclogin().execute();  
+		URL_connect= post.getURL(directorio);		
+		
+		new asyncbotones().execute();
 		Bundle bundle=getIntent().getExtras();
-		String actividad=bundle.getString("actividad");
-		TextView titulo=(TextView) findViewById(R.id.tituloPrivada);
-		titulo.setText(actividad);
+		idActividad=bundle.getString("idActividad");
+		tituloAct=bundle.getString("tituloActividad");
+		
+		String usuario = bundle.getString("user");
+		
+		textUser = (TextView) findViewById(R.id.text_user);
+	    textUser.setText("Usuario: " + usuario);
+	    
 	}
+	public boolean actividadPrivadaActual(){
+		ArrayList<NameValuePair> postparameters2send= new ArrayList<NameValuePair>();
+  		postparameters2send.add(new BasicNameValuePair("idActividad",idActividad));
+
+  		//Se realiza la petición
+  		JSONArray jdata= post.getserverdata(postparameters2send, URL_connect);
+  		//String s = String.valueOf(jdata.length());
+  		//Log.e("jdataleng", s);
+  		//Si lo que recibimos no es null ni menor de cero
+  		if (jdata!=null && jdata.length() > 0)
+  			return true;
+  		else
+  			return false;
+	}
+	public boolean muestraInformacion() throws JSONException{
+		//En este caso el array de parámetros va vacio
+		ArrayList<NameValuePair> postparameters2send= new ArrayList<NameValuePair>();
+  		postparameters2send.add(new BasicNameValuePair("idActividad",idActividad));
+  		
+  		LinearLayout vista = (LinearLayout)findViewById(R.id.info_act_privadas);
+
+  		//Se realiza la petición
+  		JSONArray jdata= post.getserverdata(postparameters2send, URL_connect);
+  		
+  		if (jdata!=null && jdata.length() > 0){
+  		    
+  		  //Titulo de actividad
+  	  		TextView titulo = new TextView(vista.getContext());
+  	  		titulo.setTextAppearance(this, R.style.textoH1);
+  	  		titulo.setText(tituloAct); 
+  	  		LinearLayout.LayoutParams params=new LinearLayout.LayoutParams(android.view.ViewGroup.LayoutParams.MATCH_PARENT,android.view.ViewGroup.LayoutParams.WRAP_CONTENT);
+  	  		titulo.setLayoutParams(params);
+  	  		titulo.setId(111);
+  	  		vista.addView(titulo);
+  	  		
+  	  	 //Código Asignatura
+  			TextView codigoAsig = new TextView(vista.getContext());
+  			codigoAsig.setTextAppearance(this, R.style.textoH2);
+  			codigoAsig.setText("Código Asignatura:");
+  			params=new LinearLayout.LayoutParams(android.view.ViewGroup.LayoutParams.MATCH_PARENT,android.view.ViewGroup.LayoutParams.WRAP_CONTENT);
+  		    params.setMargins(0, 3, 0, 0);
+  		    codigoAsig.setLayoutParams(params);
+  		    codigoAsig.setId(112);
+  			vista.addView(codigoAsig);
+  			
+  			String codigo= jdata.getString(0).replaceAll("\"", "");;
+  			TextView cod = new TextView(vista.getContext());
+  			cod.setTextAppearance(this, R.style.texto);
+  			cod.setText(codigo);
+  			params=new LinearLayout.LayoutParams(android.view.ViewGroup.LayoutParams.MATCH_PARENT,android.view.ViewGroup.LayoutParams.WRAP_CONTENT);
+  		    params.setMargins(0, 3, 0, 0);
+  		    cod.setLayoutParams(params);
+  		    cod.setId(122);
+  			vista.addView(cod);
+  			
+  		//Tipo Asignatura
+  			TextView tituloTipoAsig = new TextView(vista.getContext());
+  			tituloTipoAsig.setTextAppearance(this, R.style.textoH2);
+  			tituloTipoAsig.setText("Código Asignatura:");
+  			params=new LinearLayout.LayoutParams(android.view.ViewGroup.LayoutParams.MATCH_PARENT,android.view.ViewGroup.LayoutParams.WRAP_CONTENT);
+  		    params.setMargins(0, 3, 0, 0);
+  		    tituloTipoAsig.setLayoutParams(params);
+  		    tituloTipoAsig.setId(112);
+  			vista.addView(tituloTipoAsig);
+  			
+  			String tipoAsig = jdata.getString(2).replaceAll("\"", "");
+  			TextView Tipo = new TextView(vista.getContext());
+  			Tipo.setTextAppearance(this, R.style.texto);
+  			Tipo.setText(tipoAsig);
+  			params=new LinearLayout.LayoutParams(android.view.ViewGroup.LayoutParams.MATCH_PARENT,android.view.ViewGroup.LayoutParams.WRAP_CONTENT);
+  		    params.setMargins(0, 3, 0, 0);
+  		    Tipo.setLayoutParams(params);
+  		    Tipo.setId(122);
+  			vista.addView(Tipo);
+  			
+  		//Profesor Asignatura
+  			TextView tituloProfesor = new TextView(vista.getContext());
+  			tituloProfesor.setTextAppearance(this, R.style.textoH2);
+  			tituloProfesor.setText("Profesor:");
+  			params=new LinearLayout.LayoutParams(android.view.ViewGroup.LayoutParams.MATCH_PARENT,android.view.ViewGroup.LayoutParams.WRAP_CONTENT);
+  		    params.setMargins(0, 3, 0, 0);
+  		    tituloProfesor.setLayoutParams(params);
+  		    tituloProfesor.setId(112);
+  			vista.addView(tituloProfesor);
+  			
+  			String nombreProfesor = jdata.getString(4).replaceAll("\"", "");
+  			String apellidosProfesor = jdata.getString(5).replaceAll("\"", "");
+  			TextView profesor = new TextView(vista.getContext());
+  			profesor.setTextAppearance(this, R.style.texto);
+  			profesor.setText(nombreProfesor+' '+apellidosProfesor);
+  			params=new LinearLayout.LayoutParams(android.view.ViewGroup.LayoutParams.MATCH_PARENT,android.view.ViewGroup.LayoutParams.WRAP_CONTENT);
+  		    params.setMargins(0, 3, 0, 0);
+  		    profesor.setLayoutParams(params);
+  		    profesor.setId(122);
+  			vista.addView(profesor);
+  			
+  		//Mail Profesor
+  			TextView titulomail = new TextView(vista.getContext());
+  			titulomail.setTextAppearance(this, R.style.textoH2);
+  			titulomail.setText("Mail:");
+  			params=new LinearLayout.LayoutParams(android.view.ViewGroup.LayoutParams.MATCH_PARENT,android.view.ViewGroup.LayoutParams.WRAP_CONTENT);
+  		    params.setMargins(0, 3, 0, 0);
+  		    titulomail.setLayoutParams(params);
+  		    titulomail.setId(112);
+  			vista.addView(titulomail);
+  			
+  			String mail = jdata.getString(6).replaceAll("\"", "");
+  			TextView vistamail = new TextView(vista.getContext());
+  			vistamail.setTextAppearance(this, R.style.texto);
+  			vistamail.setText(mail);
+  			params=new LinearLayout.LayoutParams(android.view.ViewGroup.LayoutParams.MATCH_PARENT,android.view.ViewGroup.LayoutParams.WRAP_CONTENT);
+  		    params.setMargins(0, 3, 0, 0);
+  		    vistamail.setLayoutParams(params);
+  		    vistamail.setId(122);
+  			vista.addView(vistamail);
+  			
+  		//Informacion Asignatura
+  			TextView tituloInfo = new TextView(vista.getContext());
+  			tituloInfo.setTextAppearance(this, R.style.textoH2);
+  			tituloInfo.setText("Informacion:");
+  			params=new LinearLayout.LayoutParams(android.view.ViewGroup.LayoutParams.MATCH_PARENT,android.view.ViewGroup.LayoutParams.WRAP_CONTENT);
+  		    params.setMargins(0, 3, 0, 0);
+  		    tituloInfo.setLayoutParams(params);
+  		    tituloInfo.setId(112);
+  			vista.addView(tituloInfo);
+  			
+  			String info = jdata.getString(3).replaceAll("\"", "");
+  			TextView vistainfo = new TextView(vista.getContext());
+  			vistainfo.setTextAppearance(this, R.style.texto);
+  			vistainfo.setText(info);
+  			params=new LinearLayout.LayoutParams(android.view.ViewGroup.LayoutParams.MATCH_PARENT,android.view.ViewGroup.LayoutParams.WRAP_CONTENT);
+  		    params.setMargins(0, 3, 0, 0);
+  		    vistainfo.setLayoutParams(params);
+  		    vistainfo.setId(122);
+  			vista.addView(vistainfo);
+  			
+	  			
+	  			return true;
+ 		  }else{
+  				return false;
+  			}
+		
+	}
+	//vibra y muestra un Toast
+    public void err_info(){
+    	Vibrator vibrator =(Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+	    vibrator.vibrate(200);
+	    Toast toast1 = Toast.makeText(getApplicationContext(),"Error:Error al mostrar la asignatura", Toast.LENGTH_SHORT);
+ 	    toast1.show();    	
+    }
+	/*		CLASE ASYNCTASK
+	 * 
+	 * usaremos esta para poder mostrar el dialogo de progreso mientras enviamos y obtenemos los datos
+	 * podria hacerse lo mismo sin usar esto pero si el tiempo de respuesta es demasiado lo que podria ocurrir    
+	 * si la conexion es lenta o el servidor tarda en responder la aplicacion sera inestable.
+	 * ademas observariamos el mensaje de que la app no responde.     
+	 */
+	    
+	    class asyncbotones extends AsyncTask< String, String, String > {
+	    	 
+	        @Override
+			protected void onPreExecute() {
+	        	//para el progress dialog
+	            pDialog = new ProgressDialog(ActividadPrivadaActual.this);
+	            pDialog.setMessage("Actividades Privadas....");
+	            pDialog.setIndeterminate(false);
+	            pDialog.setCancelable(false);
+	            pDialog.show();
+	        }
+	 
+			@Override
+			protected String doInBackground(String... params) {
+				
+				//enviamos y recibimos y analizamos los datos en segundo plano.
+	    		if (actividadPrivadaActual()==true){    		    		
+	    			return "ok"; //login valido
+	    		}else{    		
+	    			return "err"; //login invalido     	          	  
+	    		}
+	        	
+			}
+	       
+			/*Este método se ejecuta en otro hilo, por lo que no podremos modificar la
+			 * UI desde él. Para ello, usaremos los tres métodos siguientes.*/
+	        @Override
+			protected void onPostExecute(String result) {
+
+	           pDialog.dismiss();//ocultamos progess dialog.
+	           Log.e("onPostExecute=",""+result);
+	           
+	           if (result.equals("ok")){
+					try {
+						muestraInformacion();
+					} catch (JSONException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+	            }else{
+	            	err_info();
+	            }
+	            
+	                									}
+			
+	        }
+	
 }

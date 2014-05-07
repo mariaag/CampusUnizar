@@ -30,7 +30,7 @@ public class ActividadesPrivadas extends Activity implements View.OnClickListene
 	TextView textUser;
 	String usuario;
 	String nombreAsignatura;
-	
+	String[] datos; //Asignatura&idAsignatura
 	Connection conexionMySQL;//Variable de conexión
 
     //Diálogo que muestra un indicador de progreso y un mensaje de texto opcional o vista
@@ -90,9 +90,12 @@ public class ActividadesPrivadas extends Activity implements View.OnClickListene
   			
 	  			while (i <= jdata.length()){
 	  				try {
-	  					nombreAsignatura=jdata.getString(i);
+	  					nombreAsignatura = jdata.getString(i);
+	  					nombreAsignatura = nombreAsignatura.replaceAll("\"", "");
+	  					//En el array hemos metido en cada indice Nombre&idAsignatura, vamos a separarlo
+	  					 datos = nombreAsignatura.split("&");
 	  					 Button newButton = new Button(this);
-	  				     newButton.setText(nombreAsignatura);
+	  				     newButton.setText(datos[0]);//Primero tenemos el nombre de la asignatura
 	  				     newButton.setContentDescription(nombreAsignatura);
 	  				     newButton.setBackgroundColor(Color.parseColor("#2d6898"));
 	  				     LinearLayout.LayoutParams params=new LinearLayout.LayoutParams(android.view.ViewGroup.LayoutParams.MATCH_PARENT, android.view.ViewGroup.LayoutParams.MATCH_PARENT);
@@ -102,7 +105,7 @@ public class ActividadesPrivadas extends Activity implements View.OnClickListene
 	  			         newButton.setClickable(true);
 	  					 newButton.setOnClickListener(this);
 	  					 layout_botones.addView(newButton);
-	  					 Log.e("nombreActividad",nombreAsignatura);//muestro por log que obtuvimos 
+	  					 Log.e("nombreActividad",nombreAsignatura);//muestro por log que obtuvimos
 	  				} catch (JSONException e) {
 	  					// TODO Auto-generated catch block
 	  					e.printStackTrace();
@@ -128,7 +131,10 @@ public class ActividadesPrivadas extends Activity implements View.OnClickListene
 	public void onClick(View v) {
     	String actividad = v.getContentDescription().toString();
 		Intent in = new Intent(this,ActividadPrivadaActual.class);
-		in.putExtra("actividad", actividad);
+		
+		in.putExtra("idActividad", datos[1]);
+		in.putExtra("tituloActividad", datos[0]);
+		in.putExtra("user", usuario);
 	    startActivity(in);
     }
 

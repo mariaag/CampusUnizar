@@ -19,4 +19,8 @@
     <string name="creditos">Créditos</string>
     <string name="actividades_privadas">Actividades Privadas</string>
     <string name="title_activity_creditos">Gestion de Creditos</string>
+    <string name="activity_sin_inscribir">actividades_privadas_sin_inscribir</string>
+    
+    
+    
 </resources>

@@ -18,7 +18,6 @@ import android.os.Bundle;
 import android.os.Vibrator;
 import android.util.Log;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 

@@ -129,7 +129,6 @@ public class ActividadesPrivadas extends Activity implements View.OnClickListene
     
     @Override
 	public void onClick(View v) {
-    	String actividad = v.getContentDescription().toString();
 		Intent in = new Intent(this,ActividadPrivadaActual.class);
 		
 		in.putExtra("idActividad", datos[1]);

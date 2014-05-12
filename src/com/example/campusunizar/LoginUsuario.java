@@ -1,5 +1,15 @@
 package com.example.campusunizar;
 
+import java.sql.Connection;
+import java.util.ArrayList;
+
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import test.CampusUnizar.library.Httppostaux;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -14,22 +24,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-
 //Acceso a MySQl
-import java.sql.Connection;
-import java.util.ArrayList;
-
-import org.apache.http.NameValuePair;
-import org.apache.http.message.BasicNameValuePair;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 //Paquete donde se ha creado en manejador de peticiones
-import test.CampusUnizar.library.Httppostaux;
-import com.example.campusunizar.AccesoPrivado;
-
-import com.example.campusunizar.R;
 
 
 public class LoginUsuario extends Activity {
@@ -166,54 +162,65 @@ public class LoginUsuario extends Activity {
      * ademas observariamos el mensaje de que la app no responde.     
      */
         
-        class asynclogin extends AsyncTask< String, String, String > {
-        	 
-        	String user,pass;
-            @Override
-			protected void onPreExecute() {
-            	//para el progress dialog
-                pDialog = new ProgressDialog(LoginUsuario.this);
-                pDialog.setMessage("Autenticando....");
-                pDialog.setIndeterminate(false);
-                pDialog.setCancelable(false);
-                pDialog.show();
-            }
-     
-    		@Override
-			protected String doInBackground(String... params) {
-    			//obtnemos usr y pass
-    			user=params[0];
-    			pass=params[1];
-                
-    			//enviamos y recibimos y analizamos los datos en segundo plano.
-        		if (loginstatus(user,pass)==true){    		    		
-        			return "ok"; //login valido
-        		}else{    		
-        			return "err"; //login invalido     	          	  
-        		}
-            	
+    class asynclogin extends AsyncTask< String, String, String > {
+    	 
+    	String user,pass;
+        @Override
+		protected void onPreExecute() {
+        	//para el progress dialog
+            pDialog = new ProgressDialog(LoginUsuario.this);
+            pDialog.setMessage("Autenticando....");
+            pDialog.setIndeterminate(false);
+            pDialog.setCancelable(false);
+            pDialog.show();
+        }
+ 
+		@Override
+		protected String doInBackground(String... params) {
+			//obtnemos usr y pass
+			user=params[0];
+			pass=params[1];
+            
+			//enviamos y recibimos y analizamos los datos en segundo plano.
+    		if (loginstatus(user,pass)==true){    		    		
+    			return "ok"; //login valido
+    		}else{    		
+    			return "err"; //login invalido     	          	  
     		}
+        	
+		}
+	
+   
+		/*Una vez terminado doInBackground segun lo que halla ocurrido 
+		pasamos a la sig. activity
+		o mostramos error*/
+        @Override
+		protected void onPostExecute(String result) {
+
+           pDialog.dismiss();//ocultamos progess dialog.
+           Log.e("onPostExecute=",""+result);
            
-    		/*Una vez terminado doInBackground segun lo que halla ocurrido 
-    		pasamos a la sig. activity
-    		o mostramos error*/
-            @Override
-			protected void onPostExecute(String result) {
-
-               pDialog.dismiss();//ocultamos progess dialog.
-               Log.e("onPostExecute=",""+result);
-               
-               if (result.equals("ok")){
-
-    				Intent i=new Intent(LoginUsuario.this, AccesoPrivado.class);
-    				i.putExtra("user",user);
-    				startActivity(i); 
-    				
-                }else{
-                	err_login();
-                }
-                
-                    									}
-    		
+           	if (result.equals("ok")){
+           		Bundle bundle=getIntent().getExtras();
+        		String actividad;
+        		try{
+        			actividad=bundle.getString("actividad");
+        		}catch(Exception e){
+        			actividad="";
+        		}
+        		if (actividad.equals("")){
+					Intent i=new Intent(LoginUsuario.this, AccesoPrivado.class);
+					i.putExtra("user",user);
+					startActivity(i);
+        		}else{
+        			Intent in = new Intent(LoginUsuario.this,ActividadPublicaInscrita.class);
+        			in.putExtra("actividad", actividad);
+        			in.putExtra("user",user);
+        		    startActivity(in);
+        		}
+            }else{
+            	err_login();
             }
+        }
+    }
 }

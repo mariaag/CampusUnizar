@@ -43,7 +43,7 @@ public class Httppostaux{
 	  
 	  public String getURL(String directorio ){
 	 
-		  String url = "http://192.168.1.38/"+directorio;
+		  String url = "http://192.168.1.133/"+directorio;
 	      return url;		  
 	  }
 	   

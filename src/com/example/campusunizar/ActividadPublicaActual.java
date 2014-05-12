@@ -137,19 +137,20 @@ Connection conexionMySQL;//Variable de conexión
 		String idAct=datos[6];
 		inscribir = new Button(vista.getContext());
 		inscribir.setText("Inscribirme en esta actividad");
-		inscribir.setContentDescription(idAct);
-		inscribir.setTextAppearance(this, R.style.boton);
+		inscribir.setContentDescription(extras);
 		params=new RelativeLayout.LayoutParams(android.view.ViewGroup.LayoutParams.MATCH_PARENT,android.view.ViewGroup.LayoutParams.WRAP_CONTENT);
 		params.addRule(RelativeLayout.BELOW,informacion.getId());
 	    params.setMargins(0, 3, 0, 0);
 	    inscribir.setLayoutParams(params);
 	    inscribir.setClickable(true);
 	    inscribir.setOnClickListener(this);
+//	    inscribir.setBackgroundColor(Color.parseColor("#2d6898"));
+	    inscribir.setTextAppearance(this, R.style.boton);
 	    vista.addView(inscribir);
 	}
 	public void onClick(View v) {
     	String actividad=v.getContentDescription().toString();
-		Intent in = new Intent(this,ActividadPublicaActual.class);
+    	Intent in = new Intent(this,LoginUsuario.class);
 		in.putExtra("actividad", actividad);
 	    startActivity(in);
     }

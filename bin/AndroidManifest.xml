@@ -52,6 +52,10 @@
             android:label="@string/title_activity_actividades_publicas">
         </activity>
         <activity
+            android:name="com.example.campusunizar.ActividadPublicaInscrita"
+            android:label="@string/title_activity_actividades_publicas">
+        </activity>
+        <activity
             android:name="com.example.campusunizar.Creditos"
             android:label="@string/title_activity_creditos">
         </activity>

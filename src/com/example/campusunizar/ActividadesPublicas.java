@@ -95,7 +95,7 @@ public class ActividadesPublicas extends Activity implements View.OnClickListene
 		JSONArray jdata=post.getserverdata(postparameters2send,URL_connect);
 		LinearLayout vista = (LinearLayout)findViewById(R.id.botonesPubli);
 		Button act;
-    	for(int i=1; i<jdata.length(); i++){
+    	for(int i=0; i<jdata.length(); i++){
     		
 			try {
 				String activAct;

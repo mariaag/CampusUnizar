@@ -56,7 +56,7 @@
         <item name="android:typeface">sans</item>
     </style>
     <style name="boton">
-        <item name="android:textColor">#2d6898</item>
+        <item name="android:textColor">#ffffff</item>
         <item name="android:background">@color/azulFondo</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>

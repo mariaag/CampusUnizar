@@ -216,11 +216,15 @@ public class LoginUsuario extends Activity {
         			Intent in = new Intent(LoginUsuario.this,ActividadPublicaInscrita.class);
         			in.putExtra("actividad", actividad);
         			in.putExtra("user",user);
+        			finalizar();
         		    startActivity(in);
         		}
             }else{
             	err_login();
             }
         }
+    }
+    public void finalizar(){
+    	this.finish();
     }
 }

@@ -38,7 +38,9 @@ public class ActividadPublicaInscrita extends Activity implements View.OnClickLi
 	    
 	    // String URL_connect
 	    String directorio="/campusUnizar/actividad_inscrita.php";
+	    String directorioAnular="/campusUnizar/anular_actividad.php";
 	    String URL_connect;
+	    String URL_anular;
 	    
 		@Override
 		protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +49,7 @@ public class ActividadPublicaInscrita extends Activity implements View.OnClickLi
 			//Manejador del envío de peticiones
 			post=new Httppostaux();
 			URL_connect= post.getURL(directorio);
+			URL_anular= post.getURL(directorioAnular);
 			//si pasamos esa validacion ejecutamos el asynctask pasando el usuario y clave como parametros
 			new asynclogin().execute();        		               
 		}
@@ -211,7 +214,7 @@ public class ActividadPublicaInscrita extends Activity implements View.OnClickLi
 		    cancelarInsc.setLayoutParams(params);
 		    cancelarInsc.setClickable(true);
 		    cancelarInsc.setOnClickListener(this);
-//		    inscribir.setBackgroundColor(Color.parseColor("#2d6898"));
+		    cancelarInsc.setBackgroundColor(Color.parseColor("#2d6898"));
 		    cancelarInsc.setTextAppearance(this, R.style.boton);
 		    vista.addView(cancelarInsc);
 	    }
@@ -278,7 +281,74 @@ public class ActividadPublicaInscrita extends Activity implements View.OnClickLi
 	    	String actividad=v.getContentDescription().toString();
 			Intent in = new Intent(this,ActividadPublicaActual.class);
 			in.putExtra("actividad", actividad);
+			in.putExtra("anular", "si");
+			new asyncanular().execute();
+			this.finish();
 		    startActivity(in);
 	    }
-		
+	    
+	    public String anularInscripcion(String actividad, String usuario){
+			String anulada="";
+			ArrayList<NameValuePair> postparameters2send= new ArrayList<NameValuePair>();
+			postparameters2send.add(new BasicNameValuePair("usuario",usuario));
+			postparameters2send.add(new BasicNameValuePair("actividad",actividad));
+
+			//realizamos una peticion y como respuesta obtenes un array JSON
+			JSONArray jdata=post.getserverdata(postparameters2send,URL_anular);
+
+			try {
+				JSONObject row = jdata.getJSONObject(0);
+				anulada = row.getString("anulada");			
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+	    	return anulada;
+		}
+	    public void anular_activ(){
+	    	Vibrator vibrator =(Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+		    vibrator.vibrate(200);
+		    Toast toast1 = Toast.makeText(getApplicationContext(),"Anulada la inscripción a esta asignatura", Toast.LENGTH_SHORT);
+	 	    toast1.show();
+	    }
+	    class asyncanular extends AsyncTask< String, String, String > {
+	    	 
+	        @Override
+			protected void onPreExecute() {
+	        	//para el progress dialog
+	            pDialog = new ProgressDialog(ActividadPublicaInscrita.this);
+	            pDialog.setMessage("Anulando inscripción....");
+	            pDialog.setIndeterminate(false);
+	            pDialog.setCancelable(false);
+	            pDialog.show();
+	        }
+	 
+			@Override
+			protected String doInBackground(String... params) {
+				
+				Bundle bundle=getIntent().getExtras();
+				String extras= bundle.getString("actividad");
+				String[] datos=extras.split("&");
+				String usuario=bundle.getString("user");
+				String idAct=datos[6];
+				String anulada=anularInscripcion(idAct,usuario);
+				if (anulada.equals("no"))
+					return "no";
+				else
+					return"si";
+	        	
+			}
+	       
+			/*Este método se ejecuta en otro hilo, por lo que no podremos modificar la
+			 * UI desde él. Para ello, usaremos los tres métodos siguientes.*/
+	        @Override
+			protected void onPostExecute(String result) {
+
+	           pDialog.dismiss();//ocultamos progess dialog.
+	           Log.e("onPostExecute=",""+result);
+	           if(result.equals("si"))
+	        	   anular_activ();
+	        }
+			
+	    }
 	}

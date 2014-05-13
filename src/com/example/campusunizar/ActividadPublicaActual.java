@@ -5,6 +5,7 @@ import java.sql.Connection;
 import test.CampusUnizar.library.Httppostaux;
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -133,25 +134,51 @@ Connection conexionMySQL;//Variable de conexión
 	    informacion.setId(125);
 		vista.addView(informacion);
 	//fin de información
+	//Créditos de la actividad
+		TextView CreditosTitulo = new TextView(vista.getContext());
+		CreditosTitulo.setTextAppearance(this, R.style.textoH2);
+		CreditosTitulo.setText("-Créditos:");
+		params=new RelativeLayout.LayoutParams(android.view.ViewGroup.LayoutParams.MATCH_PARENT,android.view.ViewGroup.LayoutParams.WRAP_CONTENT);
+		params.addRule(RelativeLayout.BELOW,informacion.getId());
+	    params.setMargins(0, 3, 0, 0);
+	    CreditosTitulo.setLayoutParams(params);
+	    CreditosTitulo.setId(116);
+		vista.addView(CreditosTitulo);
+		
+		String cred=datos[7].toString();
+		TextView creditos = new TextView(vista.getContext());
+		creditos.setTextAppearance(this, R.style.texto);
+		creditos.setText(cred);
+		params=new RelativeLayout.LayoutParams(android.view.ViewGroup.LayoutParams.MATCH_PARENT,android.view.ViewGroup.LayoutParams.WRAP_CONTENT);
+		params.addRule(RelativeLayout.BELOW,CreditosTitulo.getId());
+	    params.setMargins(0, 3, 0, 0);
+	    creditos.setLayoutParams(params);
+	    creditos.setId(126);
+		vista.addView(creditos);
+	//fin de Créditos
 		Button inscribir;
 		String idAct=datos[6];
 		inscribir = new Button(vista.getContext());
 		inscribir.setText("Inscribirme en esta actividad");
 		inscribir.setContentDescription(extras);
 		params=new RelativeLayout.LayoutParams(android.view.ViewGroup.LayoutParams.MATCH_PARENT,android.view.ViewGroup.LayoutParams.WRAP_CONTENT);
-		params.addRule(RelativeLayout.BELOW,informacion.getId());
+		params.addRule(RelativeLayout.BELOW,creditos.getId());
 	    params.setMargins(0, 3, 0, 0);
 	    inscribir.setLayoutParams(params);
 	    inscribir.setClickable(true);
 	    inscribir.setOnClickListener(this);
-//	    inscribir.setBackgroundColor(Color.parseColor("#2d6898"));
+	    inscribir.setBackgroundColor(Color.parseColor("#2d6898"));
 	    inscribir.setTextAppearance(this, R.style.boton);
 	    vista.addView(inscribir);
+	//Volver
+	    
 	}
+	
 	public void onClick(View v) {
     	String actividad=v.getContentDescription().toString();
     	Intent in = new Intent(this,LoginUsuario.class);
 		in.putExtra("actividad", actividad);
+		this.finish();
 	    startActivity(in);
     }
 }

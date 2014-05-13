@@ -110,26 +110,6 @@ Connection conexionMySQL;//Variable de conexión
   		    cod.setId(122);
   			vista.addView(cod);
   			
-  		//Tipo Asignatura
-  			TextView tituloTipoAsig = new TextView(vista.getContext());
-  			tituloTipoAsig.setTextAppearance(this, R.style.textoH2);
-  			tituloTipoAsig.setText("Código Asignatura:");
-  			params=new LinearLayout.LayoutParams(android.view.ViewGroup.LayoutParams.MATCH_PARENT,android.view.ViewGroup.LayoutParams.WRAP_CONTENT);
-  		    params.setMargins(0, 3, 0, 0);
-  		    tituloTipoAsig.setLayoutParams(params);
-  		    tituloTipoAsig.setId(112);
-  			vista.addView(tituloTipoAsig);
-  			
-  			String tipoAsig = jdata.getString(2).replaceAll("\"", "");
-  			TextView Tipo = new TextView(vista.getContext());
-  			Tipo.setTextAppearance(this, R.style.texto);
-  			Tipo.setText(tipoAsig);
-  			params=new LinearLayout.LayoutParams(android.view.ViewGroup.LayoutParams.MATCH_PARENT,android.view.ViewGroup.LayoutParams.WRAP_CONTENT);
-  		    params.setMargins(0, 3, 0, 0);
-  		    Tipo.setLayoutParams(params);
-  		    Tipo.setId(122);
-  			vista.addView(Tipo);
-  			
   		//Profesor Asignatura
   			TextView tituloProfesor = new TextView(vista.getContext());
   			tituloProfesor.setTextAppearance(this, R.style.textoH2);
@@ -140,8 +120,8 @@ Connection conexionMySQL;//Variable de conexión
   		    tituloProfesor.setId(112);
   			vista.addView(tituloProfesor);
   			
-  			String nombreProfesor = jdata.getString(4).replaceAll("\"", "");
-  			String apellidosProfesor = jdata.getString(5).replaceAll("\"", "");
+  			String nombreProfesor = jdata.getString(3).replaceAll("\"", "");
+  			String apellidosProfesor = jdata.getString(4).replaceAll("\"", "");
   			TextView profesor = new TextView(vista.getContext());
   			profesor.setTextAppearance(this, R.style.texto);
   			profesor.setText(nombreProfesor+' '+apellidosProfesor);
@@ -161,7 +141,7 @@ Connection conexionMySQL;//Variable de conexión
   		    titulomail.setId(112);
   			vista.addView(titulomail);
   			
-  			String mail = jdata.getString(6).replaceAll("\"", "");
+  			String mail = jdata.getString(5).replaceAll("\"", "");
   			TextView vistamail = new TextView(vista.getContext());
   			vistamail.setTextAppearance(this, R.style.texto);
   			vistamail.setText(mail);
@@ -181,7 +161,7 @@ Connection conexionMySQL;//Variable de conexión
   		    tituloInfo.setId(112);
   			vista.addView(tituloInfo);
   			
-  			String info = jdata.getString(3).replaceAll("\"", "");
+  			String info = jdata.getString(2).replaceAll("\"", "");
   			TextView vistainfo = new TextView(vista.getContext());
   			vistainfo.setTextAppearance(this, R.style.texto);
   			vistainfo.setText(info);

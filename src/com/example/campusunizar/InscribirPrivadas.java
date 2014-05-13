@@ -28,7 +28,7 @@ public class InscribirPrivadas extends Activity{
 	TextView textUser;
 	String usuario;
 	//Actividad seleccionada para ser inscrito
-	int idActividad;
+	//int idActividad;
 	
 	//Layout donde vamos a pintar los checkBox
 	LinearLayout layout_botones;
@@ -126,15 +126,13 @@ public class InscribirPrivadas extends Activity{
   				String text;
   				
 			    text = row.getString("NombreAsignatura").replace("\"", "");
-			    idActividad = row.getInt("idAsignatura");
+			    final int idActividad = row.getInt("idAsignatura");
   			    TableRow tablerow =new TableRow(this);
   			    tablerow.setId(i);
   			    tablerow.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT));
   			    final CheckBox checkBox = new CheckBox(this);
-  			    //checkBox.setOnCheckedChangeListener(this);
   			    checkBox.setTextAppearance(this, R.style.texto_Checkbox);
   			    checkBox.setId(i);
-  			    //String text = jdata.getString(i).replace("\"", "");
   			    checkBox.setText(text);
   			    tablerow.addView(checkBox); 
   			    
@@ -142,32 +140,7 @@ public class InscribirPrivadas extends Activity{
 						@Override
 						public void onClick(View view) {
 						if(checkBox.isChecked()){
-							
-							new asyncPeticionInscripcion().execute();
-							/*boolean actividadInscrita = false;
-							try {
-								actividadInscrita = sendPeticionActividad(idActividad,usuario);
-							} catch (JSONException e) {
-								// TODO Auto-generated catch block
-								e.printStackTrace();
-							}
-							idActividad=0;
-							if(actividadInscrita){
-								Vibrator vibrator =(Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-								vibrator.vibrate(200);
-								Toast toast1 = Toast.makeText(getApplicationContext(),"Actividad Inscrita", Toast.LENGTH_SHORT);
-								toast1.show();
-							}else{
-								Vibrator vibrator =(Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-								vibrator.vibrate(200);
-								Toast toast1 = Toast.makeText(getApplicationContext(),"Error de inscripción", Toast.LENGTH_SHORT);
-								toast1.show();
-							}*/
-						}else{
-							Vibrator vibrator =(Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-							vibrator.vibrate(200);
-							Toast toast1 = Toast.makeText(getApplicationContext(),"Anulación de inscripción", Toast.LENGTH_SHORT);
-							toast1.show();
+							new asyncPeticionInscripcion().execute(idActividad);
 						}
 					}
 
@@ -243,10 +216,9 @@ public class InscribirPrivadas extends Activity{
 	            }else{
 	            	err_info();
 	            }
-	            
-	                									}
+	         }
 			
-	        }
+	     }
 	    
 	    /*		CLASE ASYNCTASK
 		 * 
@@ -256,7 +228,7 @@ public class InscribirPrivadas extends Activity{
 		 * ademas observariamos el mensaje de que la app no responde.     
 		 */
 		    
-		    class asyncPeticionInscripcion extends AsyncTask< String, String, String > {
+		    class asyncPeticionInscripcion extends AsyncTask<Integer, String, String > {
 		    	 
 		        @Override
 				protected void onPreExecute() {
@@ -269,11 +241,11 @@ public class InscribirPrivadas extends Activity{
 		        }
 		 
 				@Override
-				protected String doInBackground(String... params) {
+				protected String doInBackground(Integer... params) {
 					
 					//enviamos y recibimos y analizamos los datos en segundo plano.
 		    		try {
-						if (sendPeticionActividad(idActividad,usuario)==true){    		    		
+						if (sendPeticionActividad(params[0],usuario)==true){    		    		
 							return "ok"; //login valido
 						}else{    		
 							return "err"; //login invalido     	          	  

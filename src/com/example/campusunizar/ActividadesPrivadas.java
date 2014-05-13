@@ -123,7 +123,7 @@ public class ActividadesPrivadas extends Activity implements View.OnClickListene
     public void err_privadas(){
     	Vibrator vibrator =(Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
 	    vibrator.vibrate(200);
-	    Toast toast1 = Toast.makeText(getApplicationContext(),"Error:El valor devuelto es null", Toast.LENGTH_SHORT);
+	    Toast toast1 = Toast.makeText(getApplicationContext(),"El usuario no está inscrito en ninguna actividad", Toast.LENGTH_SHORT);
  	    toast1.show();    	
     }
     

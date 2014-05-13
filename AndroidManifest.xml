@@ -59,6 +59,10 @@
             android:name="com.example.campusunizar.itemCreditoAdapter"
             android:label="@string/title_activity_creditos">
         </activity>
+        <activity
+            android:name="com.example.campusunizar.ActividadPublicaInscrita"
+            android:label="@string/title_activity_publica_inscrita">
+        </activity>
     </application>
 
 </manifest>

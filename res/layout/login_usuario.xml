@@ -57,5 +57,19 @@
 	    android:background="#2d6898"
 	    android:text="@string/boton_login"
 	    android:textColor="#ffffff" />
+	
+	<TextView
+	    android:id="@+id/txtregistro"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_below="@+id/bLogin"
+	    android:layout_centerHorizontal="true"
+	    android:layout_marginTop="23dp"
+	    android:clickable="true"
+	    android:text="@string/txt_registro"
+	    android:textColor="#5390ed"
+	    android:typeface="sans"
+	    android:textStyle="bold"
+	    android:textAppearance="?android:attr/textAppearanceMedium" />
 
 </RelativeLayout>

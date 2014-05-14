@@ -14,14 +14,23 @@
     <string name="title_activity_inscribir_actividades">Inscribir Actividades</string>
     <string name="title_activity_acceso_privado">Acceso Privado</string>
     <string name="title_activity_publica_inscrita">Actividad Pública Inscrita</string>
+    <string name="title_registro_usuario">Registro</string>
+    <string name="title_creditos_maximos">Máximo Creditos</string>
     <string name="salir">Salir</string>
     <string name="etiqueta_usuario">Usuario:</string>
     <string name="zona_privada">Zona Privada</string>
     <string name="creditos">Créditos</string>
     <string name="actividades_privadas">Actividades Privadas</string>
     <string name="title_activity_creditos">Gestion de Creditos</string>
+    <string name="txt_registro">Registrarse</string>
     <string name="activity_sin_inscribir">actividades_privadas_sin_inscribir</string>
     
+    <string name="hint_usuario">Usuario</string>
+    <string name="hint_passw">Password</string>
+    <string name="hint_nombre">Nombre</string>
+    <string name="hint_apellidos">Apellidos</string>
+    <string name="hint_dni">DNI</string>
+    <string name="hint_email">Email</string>
     
     
 </resources>

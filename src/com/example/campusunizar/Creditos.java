@@ -2,45 +2,52 @@ package com.example.campusunizar;
 
 import java.util.ArrayList;
 
-
-
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import test.CampusUnizar.library.Httppostaux;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.DialogInterface.OnClickListener;
+import android.content.Intent;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.SystemClock;
+import android.os.Vibrator;
 import android.util.Log;
-import android.widget.EditText;
-import android.widget.ListView;
+import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.LinearLayout.LayoutParams;
+import android.widget.TableRow;
 import android.widget.TextView;
+import android.widget.Toast;
+import android.view.View;
 
-public class Creditos extends Activity {
+public class Creditos extends Activity{
 	
-	
-	
-	EditText user;
-
+	TextView textUser;
+	String nombreActividades;
+	String[] datos; //idActividad&NombreActividad&CreditosActividad&CreditosTotales
     String usuario;
+    
+    //Maneja las peticiones 
     Httppostaux post;
+    private ProgressDialog pDialog;
 
     // String URL_connect    
     String directorio="/campusUnizar/creditos.php";
     String URL_connect;
     
+    //Para llevar el control de creditos totales de la bbdd y los nuevos
     int totalCreditos;
-    ArrayList<String> datosActividades = new ArrayList<String>();
-    
-    private ProgressDialog pDialog;
-    
+    int totalCreditosBBDD;
+   
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -49,11 +56,17 @@ public class Creditos extends Activity {
 		//Manejador del envío de peticiones
 		post=new Httppostaux();
 		URL_connect= post.getURL(directorio);
-		//Obtenemos el nombre del usuario que se ha introducido inicialmente
+		
+		//Obtencion del usuario de otra actividad
 		Bundle bundle=getIntent().getExtras();
         usuario = bundle.getString("user");
 		
-        new asynCreditos().execute(usuario); 	
+        //Mostramos el nombre del usuario actual
+		textUser = (TextView) findViewById(R.id.text_user2);
+	    textUser.setText("Usuario: " + usuario);
+        
+	    //Invocamos a la clase auxiliar para obtener datos de BBDD
+        new asynCreditos().execute(); 	
 }
 
 
@@ -61,26 +74,103 @@ public class Creditos extends Activity {
 
 public boolean mostrarActividades()
 {
-	try
+	ArrayList<NameValuePair> postparameters2send= new ArrayList<NameValuePair>();
+	postparameters2send.add(new BasicNameValuePair("usuario",usuario));
+	
+	LinearLayout vista= (LinearLayout)findViewById(R.id.LinearCreditos);
+	
+	JSONArray jdata= post.getserverdata(postparameters2send, URL_connect);
+	
+	
+	if (jdata!= null && jdata.length()>0 )
 	{
-	    ListView lv = (ListView)findViewById(R.id.listViewCreditos);
-	    
-	    itemCreditoAdapter adapter = new itemCreditoAdapter(this, datosActividades);
+		int i = 0;
+		while (i < jdata.length())
+		{
+			try
+			{
+				nombreActividades = jdata.getString(i).replaceAll("\"","");
+				nombreActividades = nombreActividades.replaceAll("\"","");
+				
+				//En este punto ya tenemos los 3 datos en cada una de las posiciones del array
+				//idActividad - NombreActividad - Creditos Actividad - Creditos Maximos
+				datos = nombreActividades.split("&");
+				
+				//Guardamos cada valor en su respectiva varible
+				int idActividadAct = Integer.parseInt(datos[0].toString());
+				String nombreActividadAct = datos[1];
+				String  creditosActividadAct = datos[2];
+				totalCreditosBBDD = Integer.parseInt(datos[3]);
+				
+				//Para mostrar el titulo de la Actividad
+				TextView lbNameActivity = new TextView(vista.getContext());
+				lbNameActivity.setTextAppearance(this, R.style.textoH2);
+				lbNameActivity.setText(nombreActividadAct);
+				LinearLayout.LayoutParams params = new LayoutParams(android.view.ViewGroup.LayoutParams.MATCH_PARENT,android.view.ViewGroup.LayoutParams.MATCH_PARENT);
+				params.setMargins(0,3,0,0);
+				lbNameActivity.setLayoutParams(params);
+				lbNameActivity.setId(idActividadAct);
+				vista.addView(lbNameActivity);
+				
+				//Row para mostrar titulo y creditos en una misma linea
+				TableRow tablerow = new TableRow(this);
+				tablerow.setId(i);
+				tablerow.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,LinearLayout.LayoutParams.WRAP_CONTENT));
+				
+				//Para mostrar el titulo "Creditos"
+				TextView lbCreditos = new TextView(vista.getContext());
+				lbCreditos.setTextAppearance(this, R.style.texto);
+				lbCreditos.setText("Créditos: ");
+				lbCreditos.setId(idActividadAct);
+				
+				//Para mostrar el numero de creditos relativo a la actividad
+				TextView txtCreditos = new TextView(vista.getContext());
+				txtCreditos.setTextAppearance(this, R.style.texto);
+				txtCreditos.setText(creditosActividadAct);
+				txtCreditos.setId(idActividadAct);
+				
+				//Para añadirlo a la vista original
+				tablerow.addView(lbCreditos);
+				tablerow.addView(txtCreditos);
+				vista.addView(tablerow);
+				
+				//Sumamos el numero de creditos de la nueva Actividad
+				totalCreditos += Integer.parseInt(creditosActividadAct);
+			
+			}
+			catch(JSONException e)
+			{
+				e.printStackTrace();
+				return false;
+				
+			}
+			
+			i=i+1;
+		}
 		
-		lv.setAdapter(adapter);
+		//Para mostrar por pantalla el total de creditos que tiene
+		String total = "Total Creditos: " + totalCreditos;
+		TextView lbTotalCreditos = new TextView(vista.getContext());
+		lbTotalCreditos.setTextAppearance(this, R.style.textoH2);
+		lbTotalCreditos.setText(total);
+		LinearLayout.LayoutParams params = new LayoutParams(android.view.ViewGroup.LayoutParams.MATCH_PARENT,android.view.ViewGroup.LayoutParams.MATCH_PARENT);
+		params.setMargins(0,3,0,30);
+		lbTotalCreditos.setLayoutParams(params);
+		lbTotalCreditos.setId(1);
+		vista.addView(lbTotalCreditos);
 		
-		TextView totalCreditosSuma = (TextView) findViewById(R.id.lbltotalCreditosSuma);
-		totalCreditosSuma.setText(Integer.toString(totalCreditos));
-		Log.d("creditosTotales", Integer.toString(totalCreditos));
+		
 		
 		return true;
-	}
-	catch(Exception e)
+	}else
 	{
-		Log.e("mostrarActividades", e.getMessage());
+		Vibrator vibrator =(Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+	    vibrator.vibrate(200);
+	    Toast toast1 = Toast.makeText(getApplicationContext(),"No tienes Actividades suscritas", Toast.LENGTH_SHORT);
+	    toast1.show();
 		return false;
+		
 	}
-
 }
 
 
@@ -90,122 +180,140 @@ public boolean consultabbdd(String username) {
 	 * y enviarlo mediante POST a nuestro sistema para relizar la validacion*/ 
 	ArrayList<NameValuePair> postparameters2send= new ArrayList<NameValuePair>();
  		
-	postparameters2send.add(new BasicNameValuePair("usuario",username));
+	postparameters2send.add(new BasicNameValuePair("usuario",usuario));
 	    		
-   //realizamos una peticion y como respuesta obtenes un array JSON
+	//realizamos una peticion y como respuesta obtenes un array JSON
 	JSONArray jdata=post.getserverdata(postparameters2send, URL_connect);
 
-	/*como estamos trabajando de manera local el ida y vuelta sera casi inmediato
-	 * para darle un poco realismo decimos que el proceso se pare por unos segundos para poder
-	 * observar el progressdialog                                                                                                                                                                                                                                           
-	 * la podemos eliminar si queremos
-	 */
-    SystemClock.sleep(950);
-	    		
-    //si lo que obtuvimos no es null
-	if (jdata!=null && jdata.length() > 0){
-		try 
-		{					
-			int id;
-			String nameActivity;
-			int creditos;
-			
-			for (int i = 0; i < jdata.length(); i++) 
-			{
-			    JSONObject row = jdata.getJSONObject(i);
-			    id = row.getInt("id_actividad");
-			    nameActivity = row.getString("nombre");
-			    creditos = row.getInt("Creditos");
-			    totalCreditos += creditos;
-			    String cadena = Integer.toString(id) + ";" + nameActivity +";"+ Integer.toString(creditos); 
-			    datosActividades.add(cadena);
-			}
-		// Log.e("loginstatus","logstatus= "+logstatus);//muestro por log que obtuvimos
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}		            
-	             
-			//validamos la existencia de datos
-			 if (datosActividades.isEmpty()){
-				 Log.e("Existen_Actividades ", "NoActividades");
-				 return false;
-			 }
-			 else{
-				 Log.e("Existen_Actividades ", "Actividades");
-				 return true;
-			 }		             
-	  }else
-  		{		
-		  //json obtenido invalido verificar parte WEB.
-		  Log.e("JSON  ", "ERROR");
-		  //popUpNoActividades();
-		  return false;
-  		}	
+	if (jdata!=null && jdata.length() > 0)
+	{
+		return true;
+	}else
+	{		
+		return false;
+	}	
 }
 
-public void popUpNoActividades()
+public void pintarTitulo()
 {
-	AlertDialog.Builder builder = new AlertDialog.Builder(this);
-	builder.setMessage("No esta suscrito a ninguna Actividad")
-	        .setTitle("No Actividades")
-	        .setCancelable(false)
-	        .setNegativeButton("Aceptar",
-	                new DialogInterface.OnClickListener() {
-	                    @Override
-						public void onClick(DialogInterface dialog, int id) {
-	                        dialog.cancel();
-	                    }
-	                });
-	AlertDialog alert = builder.create();
-	alert.show();
+	LinearLayout vista= (LinearLayout)findViewById(R.id.LinearCreditos);
+	
+	TextView lbTitulo = new TextView(vista.getContext());
+	lbTitulo.setTextAppearance(this, R.style.textoH1);
+	lbTitulo.setText("Créditos");
+	LinearLayout.LayoutParams params = new LayoutParams(android.view.ViewGroup.LayoutParams.MATCH_PARENT,android.view.ViewGroup.LayoutParams.MATCH_PARENT);
+	params.setMargins(0,0,0,15);
+	lbTitulo.setLayoutParams(params);
+	lbTitulo.setId(12);
+	vista.addView(lbTitulo);
+
 }
+
+public void pintarBoton()
+{
+	LinearLayout vista= (LinearLayout)findViewById(R.id.LinearCreditos);
+	
+	//Boton para que acceda a una nueva actividad y modificar el maximo de creditos
+			Button btnMaxCreditos = new Button (vista.getContext());
+			btnMaxCreditos.setText("Establecer Máximo Creditos");
+			btnMaxCreditos.setTextColor(Color.parseColor("#ffffff"));
+			btnMaxCreditos.setBackgroundColor(Color.parseColor("#2d6898"));
+			LinearLayout.LayoutParams paramet=new LinearLayout.LayoutParams(android.view.ViewGroup.LayoutParams.MATCH_PARENT, android.view.ViewGroup.LayoutParams.MATCH_PARENT);
+			paramet.setMargins(0, 30, 0, 15);
+			btnMaxCreditos.setLayoutParams(paramet);
+			btnMaxCreditos.setClickable(true);
+			btnMaxCreditos.setOnClickListener(new View.OnClickListener() {
+							        @Override
+							        public void onClick(View view) {
+									          Intent i = new Intent(Creditos.this, CreditosMaximo.class);
+									          i.putExtra("user", usuario);
+									          startActivity(i);	          
+							        }
+		      				});
+			vista.addView(btnMaxCreditos);
+}
+
+//vibra y muestra un Toast
+public void err_creditos(){
+	Vibrator vibrator =(Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+    vibrator.vibrate(200);
+    Toast toast1 = Toast.makeText(getApplicationContext(),"Error:No tiene Actividades Suscritas", Toast.LENGTH_SHORT);
+	    toast1.show();    	
+}
+
+public void popUpCreditosMaximos()
+{
+	AlertDialog.Builder alert = new AlertDialog.Builder(this);
+	alert.setTitle("Créditos Alcanzados");
+	alert.setMessage("Ha llegado al máximo de créditos.");
+	alert.setCancelable(true);
+	alert.setNeutralButton("Aceptar",new OnClickListener() {
+        public void onClick(DialogInterface dialog, int id) {
+            dialog.cancel();
+        }
+    });
+	alert.setIcon(R.drawable.ic_launcher);
+    AlertDialog alert11 = alert.create();
+    alert11.show();
+}
+
 
 class asynCreditos extends AsyncTask < String, String, String > {
 	 
 	String user;
     @Override
 	protected void onPreExecute() {
-
+    	//para el progress dialog
+        pDialog = new ProgressDialog(Creditos.this);
+        pDialog.setMessage("Creditos....");
+        pDialog.setIndeterminate(false);
+        pDialog.setCancelable(false);
+        pDialog.show();
 
     }
 
 	@Override
 	protected String doInBackground(String... params) {
-		//obtnemos usr
-		user=params[0];
-        
+		
 		//enviamos y recibimos y analizamos los datos en segundo plano.
-		if (consultabbdd(user)==true){    		    		
+		if (consultabbdd(usuario)==true)
+		{    		    		
 			return "ok"; //login valido
-		}else{    		
+		}
+		else
+		{    		
 			return "err"; //login invalido     	          	  
 		}
-    	
 	}
    
-	/*Una vez terminado doInBackground segun lo que halla ocurrido 
-	pasamos a la sig. activity
-	o mostramos error*/
+
     @Override
 	protected void onPostExecute(String result) {
 
-    	if (result.equals("ok")){
-    		if (!datosActividades.isEmpty())
-    		{
-    			Log.e("onPostExecute ", "valido");
-    			mostrarActividades();
-    			Log.e("onPostExecute - postMostrar ", "hecho");
-    		}
-    		else{
-    			popUpNoActividades();
-    		
-    		}
-        }else{
-        	//Mirar Como controlamos los errores!	
-        }
-    	
-    }
+    	pDialog.dismiss();//ocultamos progess dialog.
+        Log.e("onPostExecute=",""+result);
         
+        pintarTitulo();
+        if (result.equals("ok")){
+        	mostrarActividades();
+        	pintarBoton();
+        	//Si ha superado el numero de creditos maximo establecido, le mostramos popup informativo
+        	if (totalCreditos >= totalCreditosBBDD)
+    		{
+    			popUpCreditosMaximos();
+    		}
+        	
+        }else
+        {
+        	pintarBoton();
+        	err_creditos();
+        	//SystemClock.sleep(1500);
+        	//finish();
+        }
 	}
+        
+}
+
+
 	
 }

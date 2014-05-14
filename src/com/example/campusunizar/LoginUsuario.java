@@ -35,7 +35,7 @@ public class LoginUsuario extends Activity {
 	EditText user;
     EditText pass;
     Button blogin;
-    TextView registrar;
+    TextView registro;
 
 	
     //Diálogo que muestra un indicador de progreso y un mensaje de texto opcional o vista
@@ -59,6 +59,7 @@ public class LoginUsuario extends Activity {
 		user= (EditText) findViewById(R.id.edusuario);
         pass= (EditText) findViewById(R.id.edpassword);
         blogin= (Button) findViewById(R.id.bLogin);
+        registro= (TextView) findViewById(R.id.txtregistro);
         
       //Login button action
 	   blogin.setOnClickListener(new View.OnClickListener(){
@@ -80,6 +81,14 @@ public class LoginUsuario extends Activity {
 	    		}
 	    		
 	    	}
+	   });
+	   
+	   registro.setOnClickListener(new View.OnClickListener(){
+	       
+	    	public void onClick(View view){
+	    		Intent i=new Intent(LoginUsuario.this, RegistroUsuario.class);
+				startActivity(i); 
+ 		}
 	   });
 	}
 	 

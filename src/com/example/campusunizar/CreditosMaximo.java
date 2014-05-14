@@ -13,6 +13,7 @@ import test.CampusUnizar.library.Httppostaux;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -75,7 +76,6 @@ public class CreditosMaximo extends Activity{
 		usuario = bundle.getString("user");
 		textUser = (TextView) findViewById(R.id.text_user2);
 	    textUser.setText("Usuario: " + usuario);
-	    
 	    new asyncbotones().execute();
 	};
 	
@@ -123,7 +123,6 @@ public class CreditosMaximo extends Activity{
   		return false;
 	}
 	
-
 	
 	public void PintarInformacion() throws JSONException{
 		
@@ -193,16 +192,6 @@ public class CreditosMaximo extends Activity{
 
 				});
 		vista.addView(btnMaxCreditos); 			//
-  			
-		    
-  		  /*}else{
-  			Vibrator vibrator =(Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-  		    vibrator.vibrate(200);
-  		    Toast toast1 = Toast.makeText(getApplicationContext(),"No tienes actividades pendientes de inscribir", Toast.LENGTH_SHORT);
-  	 	    toast1.show();
-  		  }*/
-  			  
-		
 	}
 	
 	//vibra y muestra un Toast
@@ -322,9 +311,11 @@ public class CreditosMaximo extends Activity{
 						vibrator.vibrate(200);
 						Toast toast1 = Toast.makeText(getApplicationContext(),"Créditos Máximos Guardados", Toast.LENGTH_SHORT);
 						toast1.show();
-						//Refrescamos la actividad para que se muestren las actividades no inscritas
-						finish();
-						//startActivity(getIntent());
+						
+						Intent i = new Intent(CreditosMaximo.this, Creditos.class);
+						i.putExtra("user", usuario);
+				        startActivity(i);
+
 		            }else{
 		            	Vibrator vibrator =(Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
 						vibrator.vibrate(200);

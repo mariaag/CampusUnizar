@@ -34,6 +34,7 @@ public class Creditos extends Activity{
 	String nombreActividades;
 	String[] datos; //idActividad&NombreActividad&CreditosActividad&CreditosTotales
     String usuario;
+    String p;
     
     //Maneja las peticiones 
     Httppostaux post;
@@ -209,6 +210,21 @@ public void pintarTitulo()
 
 }
 
+public void pintarCreditosBBDD()
+{
+	LinearLayout vista= (LinearLayout)findViewById(R.id.LinearCreditos);
+	
+	TextView lbCreditosBBDD = new TextView(vista.getContext());
+	lbCreditosBBDD.setTextAppearance(this, R.style.textoH2);
+	lbCreditosBBDD.setText("Objetivo a Cumplir: " + totalCreditosBBDD + " créditos");
+	LinearLayout.LayoutParams params = new LayoutParams(android.view.ViewGroup.LayoutParams.MATCH_PARENT,android.view.ViewGroup.LayoutParams.MATCH_PARENT);
+	params.setMargins(0,0,0,15);
+	lbCreditosBBDD.setLayoutParams(params);
+	lbCreditosBBDD.setId(12);
+	vista.addView(lbCreditosBBDD);
+
+}
+
 public void pintarBoton()
 {
 	LinearLayout vista= (LinearLayout)findViewById(R.id.LinearCreditos);
@@ -227,6 +243,7 @@ public void pintarBoton()
 							        public void onClick(View view) {
 									          Intent i = new Intent(Creditos.this, CreditosMaximo.class);
 									          i.putExtra("user", usuario);
+									          i.putExtra("totalCreditosAct", totalCreditos);
 									          startActivity(i);	          
 							        }
 		      				});
@@ -296,15 +313,17 @@ class asynCreditos extends AsyncTask < String, String, String > {
         pintarTitulo();
         if (result.equals("ok")){
         	mostrarActividades();
+        	pintarCreditosBBDD();
         	pintarBoton();
         	//Si ha superado el numero de creditos maximo establecido, le mostramos popup informativo
-        	if (totalCreditos >= totalCreditosBBDD)
+        	if ((totalCreditos >= totalCreditosBBDD) && (totalCreditosBBDD > 0 ))
     		{
     			popUpCreditosMaximos();
     		}
         	
         }else
         {
+        	pintarCreditosBBDD();
         	pintarBoton();
         	err_creditos();
         	//SystemClock.sleep(1500);

@@ -2,7 +2,6 @@
 package com.example.campusunizar;
 
 import java.util.ArrayList;
-
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;

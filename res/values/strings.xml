@@ -37,6 +37,8 @@
     <string name="hint_apellidos">Apellidos</string>
     <string name="hint_dni">DNI</string>
     <string name="hint_email">Email</string>
+   	<string name="hint_pregunta_seg">Pregunta Seguridad</string>
+    <string name="hint_respuesta_seg">Respuesta Seguridad</string>
     
     
 </resources>

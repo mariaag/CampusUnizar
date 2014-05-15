@@ -34,6 +34,8 @@ public class RegistroUsuario extends Activity {
     private EditText txtPassword;
     private EditText txtMail;
     private EditText txtDni;
+    private EditText txtPreguntaSeg;
+    private EditText txtRespuestaSeg;
     
     private String nombre;
     private String apellidos;
@@ -41,6 +43,8 @@ public class RegistroUsuario extends Activity {
     private String password;
     private String dni;
     private String email;
+    private String preguntaSeg;
+    private String respuestaSeg;
     
     String URL_connect;
     String directorio="/campusUnizar/adduser.php";
@@ -63,6 +67,8 @@ public class RegistroUsuario extends Activity {
 		txtPassword = (EditText) findViewById(R.id.txtNewPassword);
 		txtMail = (EditText) findViewById(R.id.txtNewEmail);
 		txtDni = (EditText) findViewById(R.id.txtNewDni);
+		txtPreguntaSeg = (EditText) findViewById(R.id.txtPreguntaSeg);
+		txtRespuestaSeg = (EditText) findViewById(R.id.txtRespuestaSeg);
 		btnRegistro = (Button) findViewById(R.id.btnRegister);
 		
 		btnRegistro.setOnClickListener(new View.OnClickListener(){
@@ -76,9 +82,11 @@ public class RegistroUsuario extends Activity {
 	    		password=txtPassword.getText().toString();
 	    		dni=txtDni.getText().toString();
 	    		email=txtMail.getText().toString();
+	    		preguntaSeg=txtPreguntaSeg.getText().toString();
+	    		respuestaSeg=txtRespuestaSeg.getText().toString();
 	    		
 	    		//verificamos si estan en blanco los campos de usuario y password
-	    		if(checklogindata(nombre,apellidos,usuario, password,dni,email)==true){
+	    		if(checklogindata(nombre,apellidos,usuario, password,dni,email,preguntaSeg,respuestaSeg)==true){
 	    			//si pasamos esa validacion ejecutamos el asynctask pasando el usuario y clave como parametros
 	    			new asyncRegistro().execute();        		               
 	    		}else{
@@ -100,10 +108,11 @@ public class RegistroUsuario extends Activity {
     }
 	
 	//validamos si ha insertado todos los campos
-    public boolean checklogindata(String nombre ,String apellidos ,String usuario, String password, String dni, String email){
+    public boolean checklogindata(String nombre ,String apellidos ,String usuario, String password, String dni, String email,String pregunta, String respuesta){
     	
-	    if 	(nombre.equals("") || apellidos.equals("") || usuario.equals("") || password.equals("") || dni.equals("") || email.equals("")){
-	    	Log.e("Login ui", "checklogindata user or pass error");
+	    if 	(nombre.equals("") || apellidos.equals("") || usuario.equals("") || password.equals("") || dni.equals("") || email.equals("")
+	    		|| pregunta.equals("") || respuesta.equals("")){
+	    	Log.e("Registro ui", "No todos los campos completos");
 	    return false;
 	    
 	    }else{
@@ -121,6 +130,8 @@ public class RegistroUsuario extends Activity {
 		postparameters2send.add(new BasicNameValuePair("password",password));
 		postparameters2send.add(new BasicNameValuePair("dni",dni));
 		postparameters2send.add(new BasicNameValuePair("email",email));
+		postparameters2send.add(new BasicNameValuePair("pregunta",preguntaSeg));
+		postparameters2send.add(new BasicNameValuePair("respuesta",respuestaSeg));
 
 
 	   //realizamos una peticion y como respuesta obtenes un array JSON

@@ -36,6 +36,7 @@ public class LoginUsuario extends Activity {
     EditText pass;
     Button blogin;
     TextView registro;
+    TextView rememberPass;
 
 	
     //Diálogo que muestra un indicador de progreso y un mensaje de texto opcional o vista
@@ -60,6 +61,7 @@ public class LoginUsuario extends Activity {
         pass= (EditText) findViewById(R.id.edpassword);
         blogin= (Button) findViewById(R.id.bLogin);
         registro= (TextView) findViewById(R.id.txtregistro);
+        rememberPass= (TextView) findViewById(R.id.txtrememberpassword);
         
       //Login button action
 	   blogin.setOnClickListener(new View.OnClickListener(){
@@ -89,6 +91,26 @@ public class LoginUsuario extends Activity {
 	    		Intent i=new Intent(LoginUsuario.this, RegistroUsuario.class);
 				startActivity(i); 
  		}
+	   });
+	   
+	   rememberPass.setOnClickListener(new View.OnClickListener(){
+	       
+	    	public void onClick(View view){
+	    		String usuario=user.getText().toString();
+	    		if (usuario != null && usuario.length() > 0)
+	    		{
+		    		Intent i=new Intent(LoginUsuario.this, RememberPassword.class);
+		    		i.putExtra("user", usuario);
+					startActivity(i); 
+	    		}else
+	    		{
+	    			Vibrator vibrator =(Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+	    		    vibrator.vibrate(200);
+	    		    Toast toast1 = Toast.makeText(getApplicationContext(),"Debe introducir el usuario", Toast.LENGTH_SHORT);
+	    	 	    toast1.show(); 
+	    			
+	    		}
+		}
 	   });
 	}
 	 

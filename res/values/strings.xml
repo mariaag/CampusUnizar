@@ -16,6 +16,8 @@
     <string name="title_activity_publica_inscrita">Actividad Pública Inscrita</string>
     <string name="title_registro_usuario">Registro</string>
     <string name="title_creditos_maximos">Máximo Creditos</string>
+    <string name="title_remember_password">Recordar Contraseña</string>
+    <string name="title_change_password">Cambiar Contraseña</string>
     <string name="salir">Salir</string>
     <string name="etiqueta_usuario">Usuario:</string>
     <string name="zona_privada">Zona Privada</string>
@@ -23,8 +25,12 @@
     <string name="actividades_privadas">Actividades Privadas</string>
     <string name="title_activity_creditos">Gestion de Creditos</string>
     <string name="txt_registro">Registrarse</string>
+    <string name="txt_enviar">Enviar</string>
+    <string name="txt_rememberpass">Recordar Contraseña</string>
+    <string name="boton_savenewpass">Guardar Nueva Contraseña</string>
+    <string name="txt_newpass">Nueva Contraseña</string>
+    <string name="txt_newpass1">Repetir Nueva Contraseña</string>
     <string name="activity_sin_inscribir">actividades_privadas_sin_inscribir</string>
-    
     <string name="hint_usuario">Usuario</string>
     <string name="hint_passw">Password</string>
     <string name="hint_nombre">Nombre</string>

@@ -34,7 +34,7 @@
         android:ems="10"
         android:inputType="textPassword" >
 
-        <requestFocus />
+        
     </EditText>
 
     <EditText
@@ -45,7 +45,9 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="79dp"
         android:ems="10"
-        android:inputType="textPersonName" />
+        android:inputType="textPersonName" >
+        <requestFocus />
+    </EditText>    
 
 	<Button
 	    android:id="@+id/bLogin"
@@ -57,19 +59,33 @@
 	    android:background="#2d6898"
 	    android:text="@string/boton_login"
 	    android:textColor="#ffffff" />
-	
+
 	<TextView
-	    android:id="@+id/txtregistro"
+	    android:id="@+id/txtrememberpassword"
 	    android:layout_width="wrap_content"
 	    android:layout_height="wrap_content"
 	    android:layout_below="@+id/bLogin"
 	    android:layout_centerHorizontal="true"
-	    android:layout_marginTop="23dp"
+	    android:layout_marginTop="18dp"
+	    android:clickable="true"
+	    android:text="@string/txt_rememberpass"
+	    android:textAppearance="?android:attr/textAppearanceMedium"
+	    android:textColor="#5390ed"
+	    android:textStyle="bold"
+	    android:typeface="sans" />
+
+	<TextView
+	    android:id="@+id/txtregistro"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_below="@+id/txtrememberpassword"
+	    android:layout_centerHorizontal="true"
+	    android:layout_marginTop="14dp"
 	    android:clickable="true"
 	    android:text="@string/txt_registro"
+	    android:textAppearance="?android:attr/textAppearanceMedium"
 	    android:textColor="#5390ed"
-	    android:typeface="sans"
 	    android:textStyle="bold"
-	    android:textAppearance="?android:attr/textAppearanceMedium" />
+	    android:typeface="sans" />
 
 </RelativeLayout>
